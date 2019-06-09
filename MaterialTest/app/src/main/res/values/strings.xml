@@ -1,0 +1,64 @@
+<resources>
+    <string name="app_name">Material Test</string>
+    <string name="description_add_amigo">añadir amigo</string>
+
+    <string name="add_button">Añadir</string>
+    <string name="update_button">Actualizar</string>
+    <string name="delete_button">borrar</string>
+    <string name="fab">Añadir Amigo</string>
+    <string name="title_activity_transition_edit">Editar Nombre Activity</string>
+    <string name="title_activity_transition_add">Añadir Nombre Activity</string>
+
+    <string-array name="names_array">
+        <item>Miguel</item>
+        <item>Juliana</item>
+        <item>Cristobal</item>
+        <item>Amy</item>
+        <item>Jason</item>
+        <item>Melissa</item>
+        <item>David</item>
+        <item>Michelle</item>
+        <item>James</item>
+        <item>Kimberly</item>
+        <item>Juan</item>
+        <item>Lisa</item>
+        <item>Roberto</item>
+        <item>Ángela</item>
+        <item>Brian</item>
+        <item>Emilio</item>
+        <item>Bárbara</item>
+        <item>Estefanía</item>
+        <item>Mateo</item>
+        <item>Nicole</item>
+        <item>José</item>
+        <item>Jessica</item>
+        <item>Daniel</item>
+        <item>Elizabeth</item>
+        <item>Kevin</item>
+        <item>Rebeca</item>
+        <item>Enrique</item>
+        <item>Kelly</item>
+        <item>Jeffrey</item>
+        <item>Mary</item>
+        <item>Ricardo</item>
+        <item>Christina</item>
+        <item>Scott</item>
+        <item>Amanda</item>
+        <item>Mark</item>
+        <item>Julie</item>
+        <item>Tomás</item>
+        <item>Laura</item>
+        <item>Tadeo</item>
+        <item>Shannon</item>
+        <item>Anthony</item>
+        <item>Christine</item>
+        <item>Carlos</item>
+        <item>Tamara</item>
+        <item>Joshua</item>
+        <item>Tracy</item>
+        <item>Ryan</item>
+        <item>Karen</item>
+        <item>Jeremy</item>
+        <item>Daniel</item>
+    </string-array>
+</resources>

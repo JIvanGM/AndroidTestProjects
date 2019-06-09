@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">sqliteTest</string>
+    
+    <string name="txt_codigo">codigo del producto</string>
+    <string name="txt_descripcion">descripcion del procto</string>
+    <string name="txt_precio">precio del producto</string>
+    <string name="btn_registrar">registrar producto</string>
+    <string name="btn_buscar">buscar producto</string>
+    <string name="btn_eliminar">eliminar producto</string>
+    <string name="btn_modificar">modificar producto</string>
+    <string name="txt_descuento">descuento</string>
+</resources>

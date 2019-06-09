@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">RetrofitTest</string>
+    <string name="get_all_posts">Get all posts</string>
+    <string name="get_post_by_id">get post by id</string>
+    <string name="create_post">create post</string>
+    <string name="update_post">Update Post</string>
+    <string name="delete_post">delete post</string>
+</resources>
