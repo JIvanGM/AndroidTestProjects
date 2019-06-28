@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import java.util.Random;
 
@@ -18,8 +20,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -162,10 +167,100 @@ public class UserRepositoryImplTest {
         assertEquals(captor.getValue().getId(), userFromApi.getId());
     }
 
-
     /*
         PROBANDO ERRORES
      */
 
+    @Test(expected = IllegalStateException.class) //Se espera que suceda este tipo de error
+    public void whenDaoFailsRecoveringUserAnIllegalStateExceptionIsThrown() {
+        //Se configura para que el DAO al fallar lance una IllegalStateExceptión
+        Answer answer = new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                throw new IllegalStateException();
+            }
+        };
+        doAnswer(answer).when(userDao).getUser(anyInt());
 
+        //Ejecuta el metodo getUser de UserRepositoryImpl
+        userRepository.getUser(0);
+    }
+
+    @Test
+    public void whenDaoFailsRecoveringUserTheExceptionIsPropagatedAsIs() {
+        IllegalStateException exception = new IllegalStateException();
+
+        Answer answer = new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                throw new Exception();
+            }
+        };
+        doAnswer(answer).when(userDao).getUser(anyInt());
+
+        try {
+            userRepository.getUser(0);
+            fail();
+        } catch (Exception e) {
+            assertEquals(e, exception);
+        }
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void whenApiFailsRecoveringUserAnIllegalStateExceptionIsThrown() {
+        when(userDao.getUser(anyInt())).thenReturn(null);
+
+        Answer answer = new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                throw new IllegalStateException();
+            }
+        };
+        doAnswer(answer).when(userApi).getUser(anyInt());
+        userRepository.getUser(0);
+    }
+
+    @Test
+    public void whenApiFailsRecoveringUserTheExceptionIsPropagatedAsIs() {
+        when(userDao.getUser(anyInt())).thenReturn(null);
+        IllegalStateException exception = new IllegalStateException();
+
+        Answer answer = new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                throw new Exception();
+            }
+        };
+        doAnswer(answer).when(userApi).getUser(anyInt());
+
+        try {
+            userRepository.getUser(0);
+            fail();
+        } catch (Exception e) {
+            assertEquals(e, exception);
+        }
+    }
+
+    @Test
+    public void whenDaoFailsStoringUserTheExceptionIsWrappedProperly() {
+        when(userDao.getUser(anyInt())).thenReturn(null);
+        IllegalStateException exception = new IllegalStateException();
+
+        Answer answer = new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                throw new Exception();
+            }
+        };
+        doAnswer(answer).when(userDao).storeUser(any(User.class));
+
+        try {
+            userRepository.getUser(0);
+            fail();
+        } catch (Exception e) {
+            assert (e instanceof IllegalArgumentException);
+            assertEquals(e.getCause(), exception);
+            assertEquals(e.getMessage(), "Storing failed!");
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package mx.com.ia.androidtesterapp.Implementations;
 
+
 import mx.com.ia.androidtesterapp.Interfaces.UserApi;
 import mx.com.ia.androidtesterapp.Interfaces.UserDao;
 import mx.com.ia.androidtesterapp.Interfaces.UserRepository;
@@ -23,7 +24,13 @@ public class UserRepositoryImpl implements UserRepository {
             return user;
         else {
             user = userApi.getUser(id);
-            userDao.storeUser(user);
+
+            try {
+                userDao.storeUser(user);
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Error de almacenamiento", e);
+            }
+
             return user;
         }
     }
