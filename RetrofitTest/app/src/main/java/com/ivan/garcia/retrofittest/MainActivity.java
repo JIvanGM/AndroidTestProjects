@@ -3,12 +3,15 @@ package com.ivan.garcia.retrofittest;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.ivan.garcia.retrofittest.Connetion.RestClient;
 import com.ivan.garcia.retrofittest.Objects.Post;
 
+import java.io.Console;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -38,6 +41,40 @@ public class MainActivity extends AppCompatActivity {
         restClient = retrofit.create(RestClient.class);
 
         updatePost(null);
+    }
+
+    public void cloneArray(View view){
+        ArrayList<Post> postList = new ArrayList<>();
+        ArrayList<Post> postList2 = new ArrayList<>();
+
+        Post post = new Post("titulo", "texto", "1");
+        postList.add(post);
+
+        //it doesnt works
+        //postList2 = (ArrayList<Post>) postList.clone();
+
+        //it works
+        copiarArrayList(postList2, postList);
+
+
+        postList2.get(0).setTitle("titulo2");
+
+        Post p1 = postList.get(0);
+        Post p2 = postList2.get(0);
+
+        Log.i("nothing", "nothing");
+    }
+
+    public void copiarArrayList(ArrayList<Post> copia, ArrayList<Post> av) {
+        try {
+            copia.clear();
+            for (int i = 0; i < av.size(); i++) {
+                //copia.add(new Post(av.get(i)));
+                copia.add((Post) av.get(i).clone());
+            }
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void getAllPosts(View view) {

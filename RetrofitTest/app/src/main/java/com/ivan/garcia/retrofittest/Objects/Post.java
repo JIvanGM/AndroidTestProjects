@@ -4,7 +4,7 @@ package com.ivan.garcia.retrofittest.Objects;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Post {
+public class Post implements Cloneable{
 
     private int id;
     private String userId;
@@ -17,6 +17,10 @@ public class Post {
         this.userId = userId;
         this.title = title;
         this.text = text;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public int getId() {
@@ -33,5 +37,10 @@ public class Post {
 
     public String getText() {
         return text;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
