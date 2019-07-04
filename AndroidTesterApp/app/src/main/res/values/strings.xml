@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">AndroidTesterApp</string>
+    
+    <!-- Master Strings -->
+    <string name="master_str">Master string 1</string>
+    <string name="master_str2">Master string 2</string>
+    <string name="master_str3">Master string 3</string>
+    <string name="master_str4">Master string 4</string>
 </resources>
