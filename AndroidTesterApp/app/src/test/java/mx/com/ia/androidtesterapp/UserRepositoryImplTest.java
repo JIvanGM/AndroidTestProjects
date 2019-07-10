@@ -188,8 +188,10 @@ public class UserRepositoryImplTest {
 
     @Test
     public void whenDaoFailsRecoveringUserTheExceptionIsPropagatedAsIs() {
+        //se crea un objeto excepcion del tipo IllegalStateException
         IllegalStateException exception = new IllegalStateException();
 
+        //Se configura para que el DAO al fallar lance una IllegalStateExceptión
         Answer answer = new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
@@ -200,16 +202,18 @@ public class UserRepositoryImplTest {
 
         try {
             userRepository.getUser(0);
-            fail();
+            fail(); //forzar el fallo del test si alcanzamos esta línea (es decir, no se ha lanzado ningún excepción).
         } catch (Exception e) {
-            assertEquals(e, exception);
+            assertEquals(e, exception); //verifica que la excepcion sean de la misma instancia que exception(IllegalStateException)
         }
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = IllegalStateException.class) //Se espera que suceda este tipo de error
     public void whenApiFailsRecoveringUserAnIllegalStateExceptionIsThrown() {
+        //Se configura para que el DAO regrese un null y API sea invocado
         when(userDao.getUser(anyInt())).thenReturn(null);
 
+        //Se configura para que el API al fallar lance una IllegalStateExceptión
         Answer answer = new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
@@ -217,14 +221,19 @@ public class UserRepositoryImplTest {
             }
         };
         doAnswer(answer).when(userApi).getUser(anyInt());
+
         userRepository.getUser(0);
     }
 
     @Test
     public void whenApiFailsRecoveringUserTheExceptionIsPropagatedAsIs() {
-        when(userDao.getUser(anyInt())).thenReturn(null);
+        //se crea un objeto excepcion del tipo IllegalStateException
         IllegalStateException exception = new IllegalStateException();
 
+        //Se configura para que el DAO regrese un null y API sea invocado
+        when(userDao.getUser(anyInt())).thenReturn(null);
+
+        //Se configura para que el API al fallar lance una Exception
         Answer answer = new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
@@ -235,17 +244,21 @@ public class UserRepositoryImplTest {
 
         try {
             userRepository.getUser(0);
-            fail();
+            fail(); //forzar el fallo del test si alcanzamos esta línea (es decir, no se ha lanzado ningún excepción).
         } catch (Exception e) {
-            assertEquals(e, exception);
+            assertEquals(e, exception); //verifica que la excepcion sean de la misma instancia que exception (IllegalStateException)
         }
     }
 
     @Test
     public void whenDaoFailsStoringUserTheExceptionIsWrappedProperly() {
-        when(userDao.getUser(anyInt())).thenReturn(null);
+        //se crea un objeto excepcion del tipo IllegalStateException
         IllegalStateException exception = new IllegalStateException();
 
+        //Se configura para que el DAO regrese un null y API sea invocado
+        when(userDao.getUser(anyInt())).thenReturn(null);
+
+        //Se configura para que al Almacenar el Usuario falle y lance una Exception
         Answer answer = new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
@@ -256,11 +269,11 @@ public class UserRepositoryImplTest {
 
         try {
             userRepository.getUser(0);
-            fail();
+            fail(); //forzar el fallo del test si alcanzamos esta línea (es decir, no se ha lanzado ningún excepción).
         } catch (Exception e) {
-            assert (e instanceof IllegalArgumentException);
-            assertEquals(e.getCause(), exception);
-            assertEquals(e.getMessage(), "Storing failed!");
+            assert (e instanceof IllegalArgumentException); //verifica que la excepcion sean de la misma instancia que exception(IllegalStateException)
+            //assertEquals(e.getCause(), exception);
+            assertEquals(e.getMessage(), "Error de almacenamiento");
         }
     }
 }
