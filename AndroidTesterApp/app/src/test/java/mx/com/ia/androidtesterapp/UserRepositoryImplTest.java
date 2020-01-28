@@ -16,10 +16,8 @@ import mx.com.ia.androidtesterapp.Interfaces.UserRepository;
 import mx.com.ia.androidtesterapp.Objects.User;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -35,15 +33,15 @@ import static org.mockito.Mockito.when;
 public class UserRepositoryImplTest {
 
     //Test subject
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     //Collaborators
-    UserApi userApi;
-    UserDao userDao;
+    private UserApi userApi;
+    private UserDao userDao;
 
     //Utilities
-    User userFromApi;
-    User userFromDao;
+    private User userFromApi;
+    private User userFromDao;
 
     @Before
     public void setUp() {
@@ -80,11 +78,13 @@ public class UserRepositoryImplTest {
 
     @Test
     public void ifDaoDontReturnsUserThenApiIsCalled() {
+        // para que funcione en el setup hay que quitar el when : when(userDao.getUser(anyInt())).thenReturn(userFromDao);
+        // o modificar ese llamado regresando un null:
+        when(userDao.getUser(anyInt())).thenReturn(null);
+
         //Ejecuta el metodo getUser de UserRepositoryImpl
         userRepository.getUser(0);
 
-
-        //para que funcione en el setup hay que quitar el when del llamado a la funcion o regresar un null
         verify(userApi, atLeastOnce()).getUser(anyInt());
     }
 
@@ -112,15 +112,14 @@ public class UserRepositoryImplTest {
         assertEquals(user, userFromDao);
 
         //verifica el objeto obtenido tengan el id: 1
-        assertEquals(user.getId(), 1);
+        assertEquals(user.getId(), userFromDao.getId());
 
         //verifica el objeto obtenido tengan el nombre: fromDao
-        assertEquals(user.getUserName(), "fromDao");
+        assertEquals(user.getUserName(), userFromDao.getUserName());
 
         //otras verificaciones
         assertNotNull(user);
-        assertTrue(user.getId() == 1);
-        assertFalse(user.getId() == 2);
+        assertEquals(userFromDao.getId(), user.getId());
         assertNotEquals(user.getId(), 2);
         assertNotEquals(user, userFromApi);
     }
